@@ -18,7 +18,7 @@ def main():
 
         set_access_token(user.access_token)
 
-    print('Adding posts... ', end='')
+    print('Adding posts... ', end='', flush=True)
     for item in get_new_items():
         user.add(**item)
     print('Done.')
