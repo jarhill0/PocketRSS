@@ -10,7 +10,7 @@ key."
 
 ```
 git clone https://github.com/jarhill0/PocketRSS
-cd PocketRSS
+cd pocketrss
 cp example_config.py config.py
 ```
 
