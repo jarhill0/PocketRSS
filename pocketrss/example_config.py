@@ -1,6 +1,6 @@
 """Example of secrets file.
 
-NOTE: This file should be copied to config.py, and secrets shuold be filled
+NOTE: This file should be copied to config.py, and secrets should be filled
 out there.
 """
 

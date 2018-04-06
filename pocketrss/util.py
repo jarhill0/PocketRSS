@@ -24,7 +24,7 @@ def get_folder_path():
 def get_time():
     """Get the time saved to a text file.
 
-    Defaults to a week ago if nothing is found
+    Defaults to a week ago if nothing is found.
     """
     try:
         with open(get_file('data', 'time.txt')) as time_file:
