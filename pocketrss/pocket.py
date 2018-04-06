@@ -1,4 +1,3 @@
-from json.decoder import JSONDecodeError
 from time import sleep
 
 import requests
@@ -55,7 +54,7 @@ class Pocket:
         response = _try_five_times()
         try:
             return response.json()
-        except JSONDecodeError:
+        except ValueError:
             return response.content
 
     def resume_authentication(self, code):
