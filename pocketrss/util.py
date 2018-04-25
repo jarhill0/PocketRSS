@@ -1,5 +1,5 @@
+from json import dump, load
 from os import path
-from time import time
 
 
 def get_feeds():
@@ -21,19 +21,13 @@ def get_folder_path():
     return path.dirname(path.abspath(__file__))
 
 
-def get_time():
-    """Get the time saved to a text file.
-
-    Defaults to a week ago if nothing is found.
-    """
+def get_recent_posts():
+    """Load the most recent post from each feed, as a dict."""
     try:
-        with open(get_file('data', 'time.txt')) as time_file:
-            try:
-                return int(time_file.read().strip())
-            except ValueError:
-                return time() - 60 * 60 * 24 * 7
-    except FileNotFoundError:
-        return time() - 60 * 60 * 24 * 7
+        with open(get_file('data', 'posts.json')) as posts:
+            return load(posts)
+    except (IOError, ValueError):
+        return dict()
 
 
 def get_access_token():
@@ -45,13 +39,15 @@ def get_access_token():
         return ''
 
 
-def save_time():
-    """Save the current time to a text file."""
-    with open(get_file('data', 'time.txt'), 'w') as time_file:
-        time_file.write(str(int(time())))
-
-
 def set_access_token(token):
     """Set the access token."""
     with open(get_file('data', 'access_token.txt'), 'w') as token_f:
         token_f.write(token)
+
+
+def update_recent_posts(updated_items):
+    """Update the dict of most recent posts from each feed."""
+    saved_items = get_recent_posts()
+    saved_items.update(updated_items)
+    with open(get_file('data', 'posts.json'), 'w') as posts:
+        dump(saved_items, posts)
