@@ -18,7 +18,7 @@ def get_new_items(limit=20):
 
     for feed_url in feeds:
         feed = parse(feed_url)
-        feed_title = feed['feed']['title']
+        feed_title = feed['feed'].get('title')
 
         for post in feed['entries']:
             post_time = int(mktime(post['published_parsed']))
@@ -28,7 +28,9 @@ def get_new_items(limit=20):
             new_posts[feed_url] = max(new_posts.get(feed_url, 0), post_time)  # remember the most recent post time
             # uses max() because we might encounter 2 new post times in one run
 
-            tags = [feed_title] + parse_tags(post.get('tags', []))
+            tags = parse_tags(post.get('tags', []))
+            if feed_title:
+                tags.insert(0, feed_title)
             yield {'url': post.link, 'tags': ','.join(tags)}
             num_items += 1
 
