@@ -18,20 +18,24 @@ def get_new_items(limit=20):
 
     for feed_url in feeds:
         feed = parse(feed_url)
-        feed_title = feed['feed'].get('title')
+        feed_title = feed["feed"].get("title")
 
-        for post in feed['entries']:
+        for post in feed["entries"]:
             post_time = time_from(post)
-            if post_time <= recent_posts.get(feed_url, 0):  # it was published at or before the last post
+            if post_time <= recent_posts.get(
+                feed_url, 0
+            ):  # it was published at or before the last post
                 break
 
-            new_posts[feed_url] = max(new_posts.get(feed_url, 0), post_time)  # remember the most recent post time
+            new_posts[feed_url] = max(
+                new_posts.get(feed_url, 0), post_time
+            )  # remember the most recent post time
             # uses max() because we might encounter 2 new post times in one run
 
-            tags = parse_tags(post.get('tags', []))
+            tags = parse_tags(post.get("tags", []))
             if feed_title:
                 tags.insert(0, feed_title)
-            yield {'url': post.link, 'tags': ','.join(tags)}
+            yield {"url": post.link, "tags": ",".join(tags)}
             num_items += 1
 
             if num_items >= limit:
@@ -47,7 +51,8 @@ def get_new_items(limit=20):
 
 def parse_tags(tags):
     """Parse a tags object to return a list, with commas escaped."""
-    return [t['term'].replace(',', '\,') for t in tags]
+    return [t["term"].replace(",", "\,") for t in tags]
+
 
 def time_from(post):
     """Get a time from a post."""

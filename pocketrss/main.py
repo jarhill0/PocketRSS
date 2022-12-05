@@ -12,13 +12,13 @@ def main():
     if token:
         user = pocket.user(token)
     else:
-        print('User token not saved. Authentication necessary.')
+        print("User token not saved. Authentication necessary.")
         user = pocket.authenticate_user()
-        print('Successfully authenticated, thank you.')
+        print("Successfully authenticated, thank you.")
 
         set_access_token(user.access_token)
 
-    print('Adding posts... ', end='', flush=True)
+    print("Adding posts... ", end="", flush=True)
     for item in get_new_items():
         user.add(**item)
-    print('Done.')
+    print("Done.")
