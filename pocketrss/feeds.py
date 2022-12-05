@@ -21,7 +21,7 @@ def get_new_items(limit=20):
         feed_title = feed['feed'].get('title')
 
         for post in feed['entries']:
-            post_time = int(mktime(post['published_parsed']))
+            post_time = time_from(post)
             if post_time <= recent_posts.get(feed_url, 0):  # it was published at or before the last post
                 break
 
@@ -48,3 +48,9 @@ def get_new_items(limit=20):
 def parse_tags(tags):
     """Parse a tags object to return a list, with commas escaped."""
     return [t['term'].replace(',', '\,') for t in tags]
+
+def time_from(post):
+    """Get a time from a post."""
+    if "published_parsed" in post:
+        return int(mktime(post["published_parsed"]))
+    return int(mktime(post["updated_parsed"]))
